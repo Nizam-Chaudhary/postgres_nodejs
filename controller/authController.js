@@ -14,6 +14,15 @@ const signUp = async (req, res, next) => {
     });
   }
 
+  const userAlreadyExist = await user.findOne({
+    where: { email: body.email.toLowerCase() },
+  });
+  if (userAlreadyExist) {
+    return res.status(401).json({
+      status: "fail",
+      message: "Email already registered",
+    });
+  }
   try {
     const newUser = await user.create({
       userType: body.userType,
@@ -25,13 +34,6 @@ const signUp = async (req, res, next) => {
     });
 
     const result = newUser.toJSON();
-    delete result.password;
-    delete result.deletedAt;
-
-    result.token = generateToken({
-      id: result.id,
-    });
-
     if (!result) {
       return res.status(400).json({
         status: "fail",
@@ -39,11 +41,19 @@ const signUp = async (req, res, next) => {
       });
     }
 
+    delete result.password;
+    delete result.deletedAt;
+
+    result.token = generateToken({
+      id: result.id,
+    });
+
     return res.status(201).json({
       status: "success",
       data: result,
     });
   } catch (error) {
+    console.error(error);
     return res.status(400).json({
       status: "fail",
       message: error.message,
