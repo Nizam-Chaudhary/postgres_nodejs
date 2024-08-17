@@ -3,6 +3,7 @@ require("dotenv").config({ path: `${process.cwd()}/.env` });
 const user = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { ValidationErrorItem, Sequelize } = require("sequelize");
 
 const signUp = async (req, res, next) => {
   const body = req.body;
@@ -54,6 +55,15 @@ const signUp = async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
+
+    if (error instanceof Sequelize.ValidationError) {
+      const messages = error.errors.map((errItem) => errItem.message);
+      return res.status(400).json({
+        status: "fail",
+        message: messages,
+      });
+    }
+
     return res.status(400).json({
       status: "fail",
       message: error.message,
