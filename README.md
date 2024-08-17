@@ -11,3 +11,11 @@ npx sequelize-cli model:generate --name User --attributes userType:ENUM,firstNam
 # to migrate
 
 npx sequelize-cli db:migrate
+
+# to undo
+
+npx sequelize-cli db:migrate:undo
+
+# to undo all
+
+npx sequelize-cli db:migrate:undo all
