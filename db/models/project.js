@@ -127,6 +127,9 @@ module.exports = sequelize.define(
       allowNull: false,
       type: DataTypes.DATE,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+    },
   },
   {
     paranoid: true,

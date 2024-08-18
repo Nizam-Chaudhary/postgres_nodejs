@@ -3,7 +3,7 @@ require("dotenv").config({ path: `${process.cwd()}/.env` });
 const user = require("../db/models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { ValidationErrorItem, Sequelize } = require("sequelize");
+const { Sequelize } = require("sequelize");
 
 const signUp = async (req, res, next) => {
   const body = req.body;
