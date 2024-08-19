@@ -65,10 +65,41 @@ const login = catchAsync(async (req, res, next) => {
   });
 });
 
+const authenticate = catchAsync(async (req, res, next) => {
+  // 1. Get Token
+  let idToken = "";
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    idToken = req.headers.authorization.split(" ")[1];
+  }
+  if (!idToken) {
+    return next(new AppError("Please login first", 401));
+  }
+  // 2. Verify Token
+  const tokenDetail = jwt.verify(idToken, process.env.JWT_SECRET_KEY);
+
+  // 3. Return User details
+  req.user = await user.findByPk(tokenDetail.id);
+  return next();
+});
+
+const restrictTo = (...userType) => {
+  return (checkPermission = (req, res, next) => {
+    if (!userType.includes(req.user.userType)) {
+      return next(
+        new AppError("You do not have permission to perform this action", 403)
+      );
+    }
+    return next();
+  });
+};
+
 const generateToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
-module.exports = { signUp, login };
+module.exports = { signUp, login, authenticate, restrictTo };

@@ -31,6 +31,9 @@ const sendErrorProd = (err, res) => {
 
 const globalErrorHandler = (err, req, res, next) => {
   console.error(err);
+  if (err.name === "JsonWebTokenError") {
+    err = new AppError(err.message, 401);
+  }
   if (err.name === "SequelizeUniqueConstraintError") {
     err = new AppError(err.errors[0].message, 400);
   }

@@ -5,6 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 
 const createProject = catchAsync(async (req, res, next) => {
   const body = req.body;
+  const userId = req.user.id;
 
   const newProject = await project.create({
     title: body.title,
@@ -15,7 +16,7 @@ const createProject = catchAsync(async (req, res, next) => {
     productUrl: body.productUrl,
     category: body.category,
     tags: body.tags,
-    createdBy: 1,
+    createdBy: userId,
   });
 
   const result = newProject.toJSON();
@@ -34,4 +35,15 @@ const createProject = catchAsync(async (req, res, next) => {
   });
 });
 
-module.exports = { createProject };
+const getAllProject = catchAsync(async (req, res, next) => {
+  const allProjects = await project.findAll();
+  if (!allProjects) {
+    throw new AppError("Error get all projects", 400);
+  }
+  return res.status(201).json({
+    status: "success",
+    data: allProjects,
+  });
+});
+
+module.exports = { createProject, getAllProject };
