@@ -1,6 +1,7 @@
 "use strict";
 const { DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
+const AppError = require("../../utils/appError");
 
 const sequelize = require("../../config/database");
 module.exports = sequelize.define(
@@ -50,6 +51,7 @@ module.exports = sequelize.define(
     },
     email: {
       allowNull: false,
+      unique: true,
       type: DataTypes.STRING,
       validate: {
         notNull: {
@@ -79,9 +81,9 @@ module.exports = sequelize.define(
           const hashPassword = bcrypt.hashSync(value, 10);
           this.setDataValue("password", hashPassword);
         } else if (value !== this.password) {
-          throw new Error("Password and Confirm Password must be same");
+          throw new AppError("Password and Confirm Password must be same", 400);
         } else if (value.length <= 8) {
-          throw new Error("Password length must be greater than 8");
+          throw new AppError("Password length must be greater than 8", 400);
         }
       },
     },
