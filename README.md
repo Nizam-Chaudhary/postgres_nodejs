@@ -16,7 +16,7 @@ npx sequelize-cli model:generate --name User --attributes userType:ENUM,firstNam
 
 npx sequelize-cli db:migrate
 
-####to undo
+#### to undo
 
 npx sequelize-cli db:migrate:undo
 
@@ -24,7 +24,7 @@ npx sequelize-cli db:migrate:undo
 
 npx sequelize-cli db:migrate:undo all
 
-####to create seeder
+#### to create seeder
 
 npx sequelize-cli seed:create --name name-of-seeder
 
@@ -32,6 +32,6 @@ npx sequelize-cli seed:create --name name-of-seeder
 
 npx sequelize-cli db:seed:all
 
-# to undo seeder
+### to undo seeder
 
 npx sequelize-cli db:seed:undo
