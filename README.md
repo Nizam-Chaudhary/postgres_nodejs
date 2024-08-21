@@ -1,30 +1,34 @@
-This Repository is about Postgres with Nodejs and Sequelize.
+#This Repository is about Postgres with Nodejs and Sequelize.
 
-# to create Database
+### to initialize sequelize
+
+npx sequelize-cli init
+
+### to create Database
 
 npx sequelize-cli db:create
 
-# to generate model
+### to generate model
 
 npx sequelize-cli model:generate --name User --attributes userType:ENUM,firstName:string,lastName:string,email:string,password:string
 
-# to migrate
+### to migrate
 
 npx sequelize-cli db:migrate
 
-# to undo
+####to undo
 
 npx sequelize-cli db:migrate:undo
 
-# to undo all
+### to undo all
 
 npx sequelize-cli db:migrate:undo all
 
-# to create seeder
+####to create seeder
 
 npx sequelize-cli seed:create --name name-of-seeder
 
-# to run seeder
+### to run seeder
 
 npx sequelize-cli db:seed:all
 
