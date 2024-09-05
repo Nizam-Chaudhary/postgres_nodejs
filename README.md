@@ -40,5 +40,5 @@ npx sequelize-cli db:seed:undo
 
 select column_name, data_type, udt_name, is_nullable, character_maximum_length, column_default
 from INFORMATION_SCHEMA.COLUMNS
-where table_name = '<Table Name>'
+where table_name = 'Table Name'
 order by ordinal_position
