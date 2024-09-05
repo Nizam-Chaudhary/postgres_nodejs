@@ -35,3 +35,10 @@ npx sequelize-cli db:seed:all
 ### to undo seeder
 
 npx sequelize-cli db:seed:undo
+
+# to get table description in postgres
+
+select column_name, data_type, udt_name, is_nullable, character_maximum_length, column_default
+from INFORMATION_SCHEMA.COLUMNS
+where table_name = '<Table Name>'
+order by ordinal_position
